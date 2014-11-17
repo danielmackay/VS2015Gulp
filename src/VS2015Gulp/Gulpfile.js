@@ -1,4 +1,3 @@
-/// <binding />
 // Config
 var root = 'wwwroot';
 var dest = root + '/lib';
