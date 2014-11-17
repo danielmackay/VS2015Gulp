@@ -1,0 +1,8 @@
+{
+    "name": "VS2015Gulp",
+    "private": true,
+    "dependencies": {
+    },
+    "exportsOverride": {
+    }
+}
