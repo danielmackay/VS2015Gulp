@@ -1,6 +1,11 @@
 // Config
-var root = 'wwwroot';
-var dest = root + '/lib';
+var config = {
+    dest: 'wwwroot/lib',
+    src: {
+        js: 'js/*.js',
+        css: 'css/app.less'
+    }
+};
 
 // Include gulp and plugins
 var gulp = require('gulp');
@@ -12,33 +17,34 @@ plug.clean = require('gulp-clean');
 plug.less = require('gulp-less');
 plug.mincss = require('gulp-minify-css')
 
-// Lint Task
+// Lint JS
 gulp.task('lint', function () {
-    return gulp.src('js/*.js')
+    return gulp.src(config.src.js)
         .pipe(plug.jshint())
         .pipe(plug.jshint.reporter('default'));
 });
 
+// Clean output dir
 gulp.task('clean', function () {
-    console.log('cleaning ' + dest);
-    return gulp.src(dest)
+    console.log('cleaning ' + config.dest);
+    return gulp.src(config.dest)
         .pipe(plug.clean());
 });
 
-// Concatenate & Minify JS
+// Concatenate & minify JS
 gulp.task('bundlejs', ['clean', 'lint'], function () {
-    return gulp.src('js/*.js')
+    return gulp.src(config.src.js)
         .pipe(plug.concat('app.js', { newLine: ';' }))
         .pipe(plug.uglify())
-        .pipe(gulp.dest(dest));
+        .pipe(gulp.dest(config.dest));
 });
 
 // Concatenate & minify Less
 gulp.task('bundlecss', ['clean'], function () {
-    return gulp.src('css/App.less')
+    return gulp.src(config.src.css)
         .pipe(plug.less())
         .pipe(plug.mincss())
-        .pipe(gulp.dest(dest));
+        .pipe(gulp.dest(config.dest));
 });
 
 gulp.task('default', ['bundlejs', 'bundlecss']);
